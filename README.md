@@ -37,4 +37,8 @@ Adjusted button spacing and added colors for better user experience.
 - Project built using Flutter
 - All core features implemented individually by me
 - Tested buttons and color logic on an Android emulator
+Teammate 1 
+Core logic (Ignite, Abort, Reset, Color logic, Liftoff message)
+Teammate 2
+Liftoff popup dialog, UI polish with icons and spacing
 
