@@ -35,6 +35,9 @@ class _RocketControllerState extends State<RocketController> {
     setState(() {
       if (_counter < 100) {
         _counter++;
+        if (_counter == 100) {
+          _showLiftoffDialog();
+        }
       }
     });
   }
@@ -53,50 +56,75 @@ class _RocketControllerState extends State<RocketController> {
     });
   }
 
+  void _showLiftoffDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("🚀 LIFTOFF!"),
+        content: const Text("Congratulations, your rocket has launched!"),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("OK"),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Rocket Launch Controller")),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Center(
-            child: Text(
-              _counter == 100 ? "🚀 LIFTOFF!" : "$_counter",
-              style: TextStyle(fontSize: 52, color: _getCounterColor()),
+      body: Padding(
+        padding: const EdgeInsets.all(18.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(
+              child: Text(
+                _counter == 100 ? "🚀 LIFTOFF!" : "$_counter",
+                style: TextStyle(fontSize: 52, fontWeight: FontWeight.bold, color: _getCounterColor()),
+              ),
             ),
-          ),
-          Slider(
-            min: 0,
-            max: 100,
-            value: _counter.toDouble(),
-            onChanged: (value) {
-              setState(() {
-                _counter = value.toInt();
-              });
-            },
-            activeColor: const Color.fromARGB(255, 58, 161, 246),
-            inactiveColor: const Color.fromARGB(255, 247, 49, 35),
-          ),
-          const SizedBox(height: 22),
-          Wrap(
-            spacing: 11,
-            children: [
-              ElevatedButton(
-                onPressed: _ignite,
-                child: const Text("Ignite +1"),
-              ),
-              ElevatedButton(
-                onPressed: _abort,
-                child: const Text("Abort -1"),
-              ),
-              ElevatedButton(
-                onPressed: _reset,
-                child: const Text("Reset"),
-              ),
-            ],
-          ),
-        ],
+            const SizedBox(height: 20),
+            Slider(
+              min: 0,
+              max: 100,
+              value: _counter.toDouble(),
+              onChanged: (value) {
+                setState(() {
+                  _counter = value.toInt();
+                });
+              },
+              activeColor: const Color.fromARGB(255, 58, 161, 246),
+              inactiveColor: const Color.fromARGB(255, 247, 49, 35),
+            ),
+            const SizedBox(height: 30),
+            Wrap(
+              spacing: 15,
+              runSpacing: 15,
+              alignment: WrapAlignment.center,
+              children: [
+                ElevatedButton.icon(
+                  onPressed: _ignite,
+                  icon: const Icon(Icons.local_fire_department),
+                  label: const Text("Ignite +1"),
+                ),
+                ElevatedButton.icon(
+                  onPressed: _abort,
+                  icon: const Icon(Icons.cancel),
+                  label: const Text("Abort -1"),
+                ),
+                ElevatedButton.icon(
+                  onPressed: _reset,
+                  icon: const Icon(Icons.restart_alt),
+                  label: const Text("Reset"),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
